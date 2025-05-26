@@ -1,1 +1,93 @@
 # myai-world
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MyAI World - Demo GitHub Pages</title>
+<style>
+  body { font-family: Arial, sans-serif; margin:0; background: #f0f4ff; }
+  header { background:#4a6eff; color:white; text-align:center; padding:15px; font-size:24px; }
+  #sidebar { width:20%; background:#eee; height:90vh; float:left; overflow:auto; padding:10px; box-sizing:border-box; }
+  #main { width:80%; float:left; padding:20px; height:90vh; overflow:auto; box-sizing:border-box; }
+  .character { padding:10px; border-bottom:1px solid #ccc; cursor:pointer; }
+  .character:hover { background:#d0e0ff; }
+  .chat-box { background:white; border:1px solid #ccc; height:400px; overflow:auto; padding:10px; }
+  .input-box { margin-top:10px; }
+  input[type=text] { width:70%; padding:8px; }
+  button { padding:8px 12px; }
+  #imageGen { margin-top:20px; padding:10px; background:#fff; border:1px solid #ccc; }
+  #imageGen img { max-width:100%; margin-top:10px; }
+</style>
+</head>
+<body>
+<header>MyAI World - Demo GitHub Pages</header>
+<div id="sidebar">
+  <h3>Nhân vật AI</h3>
+  <div class="character" onclick="selectCharacter('Anna')">Anna - Trợ lý vui vẻ</div>
+  <div class="character" onclick="selectCharacter('Kaito')">Kaito - Lập trình viên</div>
+  <div class="character" onclick="selectCharacter('MiMi')">MiMi - Bạn tâm sự</div>
+</div>
+<div id="main">
+  <h2>Chat với <span id="currentCharacter">MiMi</span></h2>
+  <div class="chat-box" id="chatBox">
+    <p><b>MiMi:</b> Xin chào! Bạn muốn nói gì hôm nay?</p>
+  </div>
+  <div class="input-box">
+    <input type="text" id="userInput" placeholder="Nhập tin nhắn..." />
+    <button onclick="sendMessage()">Gửi</button>
+  </div>
+
+  <div id="imageGen">
+    <h3>Tạo ảnh AI (giả lập)</h3>
+    <input type="text" id="imagePrompt" placeholder="Mô tả ảnh..." />
+    <button onclick="generateImage()">Tạo ảnh</button>
+    <div id="imageResult"></div>
+  </div>
+</div>
+
+<script>
+  let currentCharacter = 'MiMi';
+
+  function selectCharacter(name) {
+    currentCharacter = name;
+    document.getElementById('currentCharacter').innerText = name;
+    const chatBox = document.getElementById('chatBox');
+    chatBox.innerHTML = `<p><b>${name}:</b> Xin chào! Bạn muốn nói gì hôm nay?</p>`;
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('userInput');
+    const chatBox = document.getElementById('chatBox');
+    const text = input.value.trim();
+    if (!text) return;
+
+    chatBox.innerHTML += `<p><b>Bạn:</b> ${text}</p>`;
+
+    setTimeout(() => {
+      chatBox.innerHTML += `<p><b>${currentCharacter}:</b> ${fakeResponse(text)}</p>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }, 500);
+
+    input.value = '';
+  }
+
+  function fakeResponse(input) {
+    // Đơn giản giả lập trả lời
+    return "Cảm ơn bạn đã chia sẻ! Mình luôn ở đây để lắng nghe.";
+  }
+
+  function generateImage() {
+    const prompt = document.getElementById('imagePrompt').value.trim();
+    const resultDiv = document.getElementById('imageResult');
+    if (!prompt) {
+      alert('Vui lòng nhập mô tả ảnh');
+      return;
+    }
+    // Giả lập tạo ảnh AI
+    const fakeUrl = "https://via.placeholder.com/400x300?text=" + encodeURIComponent(prompt);
+    resultDiv.innerHTML = `<img src="${fakeUrl}" alt="Ảnh AI tạo ra" />`;
+  }
+</script>
+</body>
+</html>
